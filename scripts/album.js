@@ -28,6 +28,21 @@ var albumMarconi = {
   ]
 };
 
+var albumKnifeParty = {
+  title: 'Abandon Ship',
+  artist: 'Knife Party',
+  label: ' Earstorm',
+  year: '2014',
+  albumArtUrl: 'assets/images/album_covers/Knife_Party_-_Abandon_Ship.jpg',
+  songs: [
+    { title: 'Boss Mode', duration: '3:47'},
+    { title: '404', duration: '4:59'},
+    { title: 'Give it up', duration: '4:11'},
+    { title: 'Red Dawn', duration: '6:07'},
+    { title: 'Begin Again', duration: '5:55'},
+  ]
+};
+
 var createSongRow = function(songNumber, songName, songLength) {
   var template =
     '<tr class="album-view-song-item">'
@@ -39,13 +54,13 @@ var createSongRow = function(songNumber, songName, songLength) {
   return template;
 };
 
-var setCurrentAlbum = function(album) {
-    var albumTitle = document.getElementsByClassName('album-view-title')[0];
-    var albumArtist = document.getElementsByClassName('album-view-artist')[0];
-    var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
-    var albumImage = document.getElementsByClassName('album-cover-art')[0];
-    var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
+var albumTitle = document.getElementsByClassName('album-view-title')[0];
+var albumArtist = document.getElementsByClassName('album-view-artist')[0];
+var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
+var albumImage = document.getElementsByClassName('album-cover-art')[0];
+var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
 
+var setCurrentAlbum = function(album) {
     albumTitle.firstChild.nodeValue = album.title;
     albumArtist.firstChild.nodeValue = album.artist;
     albumReleaseInfo.firstChild.nodeValue = album.year + ' ' + album.label;
@@ -60,4 +75,15 @@ var setCurrentAlbum = function(album) {
 
 window.onload = function() {
     setCurrentAlbum(albumPicasso);
+
+    var albums = [albumPicasso, albumMarconi, albumKnifeParty];
+    var index = 0;
+    albumImage.addEventListener("click", function(event) {
+      setCurrentAlbum(albums[index]);
+      index++;
+      if (index == albums.length) {
+        index = 0;
+      }
+
+    });
 };
