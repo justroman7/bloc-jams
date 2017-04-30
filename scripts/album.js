@@ -80,7 +80,14 @@ var findParentByClassName = function(element, targetClass) {
             currentParent = currentParent.parentElement;
         }
         return currentParent;
+      }
+    else if (currentParent == null) {
+      console.log("no parent found.")
     }
+    else if (currentParent.parentElement !== targetClass) {
+      console.log("No parent found with that class name.")
+    }
+
 };
 
 var getSongItem = function(element) {
@@ -128,7 +135,7 @@ window.onload = function() {
     setCurrentAlbum(albumPicasso);
 
     songListContainer.addEventListener('mouseover', function(event) {
-      console.log(event.target);
+      //console.log(event.target);
       if (event.target.parentElement.className === 'album-view-song-item') {
         event.target.parentElement.querySelector('.song-item-number').innerHTML = playButtonTemplate;
         var songItem = getSongItem(event.target);
