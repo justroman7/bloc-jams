@@ -51,25 +51,27 @@ var createSongRow = function(songNumber, songName, songLength) {
     +'  <td class="song-item-duration">' + songLength + '</td>'
     +'</tr>'
     ;
-  return template;
+  return $(template);
 };
 
-var albumTitle = document.getElementsByClassName('album-view-title')[0];
-var albumArtist = document.getElementsByClassName('album-view-artist')[0];
-var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
-var albumImage = document.getElementsByClassName('album-cover-art')[0];
-var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
+var $albumImage;
 
 var setCurrentAlbum = function(album) {
-    albumTitle.firstChild.nodeValue = album.title;
-    albumArtist.firstChild.nodeValue = album.artist;
-    albumReleaseInfo.firstChild.nodeValue = album.year + ' ' + album.label;
-    albumImage.setAttribute('src', album.albumArtUrl);
+  var $albumTitle = $('album-view-title');
+  var $albumArtist = $('album-view-artist');
+  var $albumReleaseInfo = $('album-view-release-info');
+  var $albumSongList = $('album-view-song-list');
+  $albumImage = $('album-cover-art');
+    $albumTitle.text(album.title);
+    $albumArtist.text(album.artist);
+    $albumReleaseInfo.text(album.year + ' ' + album.label);
+    $albumImage.attr('src', album.albumArtUrl);
 
-    albumSongList.innerHTML = '';
+    $albumSongList.empty();
 
     for (var i = 0; i < album.songs.length; i++) {
-        albumSongList.innerHTML += createSongRow(i + 1, album.songs[i].title, album.songs[i].duration);
+        var $newRow = createSongRow(i + 1, album.songs[i].title,album.songs[i].duration);
+        $albumSongList.append($newRow);
     }
 };
 
@@ -117,10 +119,10 @@ var clickHandler = function(targetElement) {
     songItem.innerHTML = playButtonTemplate;
     currentlyPlayingSong = null;
   } else if (currentlyPlayingSong !== songItem.getAttribute('data-song-number')) {
-      var currentlyPlayingSongElement = document.querySelector('[data-song-number="' + currentlyPlayingSong + '"]');
-      currentlyPlayingSongElement.innerHTML = currentlyPlayingSongElement.getAttribute('data-song-number');
-      songItem.innerHTML = pauseButtonTemplate;
-      currentlyPlayingSong = songItem.getAttribute('data-song-number');
+    var currentlyPlayingSongElement = document.querySelector('[data-song-number="' + currentlyPlayingSong + '"]');
+    currentlyPlayingSongElement.innerHTML = currentlyPlayingSongElement.getAttribute('data-song-number');
+    songItem.innerHTML = pauseButtonTemplate;
+    currentlyPlayingSong = songItem.getAttribute('data-song-number');
      }
 
 };
@@ -132,9 +134,10 @@ var pauseButtonTemplate = '<a class="album-song-button"><span class="ion-pause">
 var currentlyPlayingSong = null;
 
 window.onload = function() {
-    setCurrentAlbum(albumPicasso);
+  setCurrentAlbum(albumPicasso);
+  // $albumImage
 
-    songListContainer.addEventListener('mouseover', function(event) {
+  songListContainer.addEventListener('mouseover', function(event) {
       //console.log(event.target);
       if (event.target.parentElement.className === 'album-view-song-item') {
         event.target.parentElement.querySelector('.song-item-number').innerHTML = playButtonTemplate;
@@ -160,16 +163,16 @@ window.onload = function() {
       });
 
 
-    }
-
+    };
     var albums = [albumPicasso, albumMarconi, albumKnifeParty];
     var index = 0;
-    albumImage.addEventListener("click", function(event) {
+    console.log($albumImage);
+    $albumImage.addEventListener("click", function(event) {
       setCurrentAlbum(albums[index]);
       index++;
       if (index == albums.length) {
         index = 0;
       }
 
-    });
+   });
 };
