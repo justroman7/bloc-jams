@@ -54,14 +54,13 @@ var createSongRow = function(songNumber, songName, songLength) {
   return $(template);
 };
 
-var $albumImage;
+var $albumTitle = $('.album-view-title');
+var $albumArtist = $('.album-view-artist');
+var $albumReleaseInfo = $('.album-view-release-info');
+var $albumSongList = $('.album-view-song-list');
+var $albumImage = $('.album-cover-art');
 
 var setCurrentAlbum = function(album) {
-  var $albumTitle = $('album-view-title');
-  var $albumArtist = $('album-view-artist');
-  var $albumReleaseInfo = $('album-view-release-info');
-  var $albumSongList = $('album-view-song-list');
-  $albumImage = $('album-cover-art');
     $albumTitle.text(album.title);
     $albumArtist.text(album.artist);
     $albumReleaseInfo.text(album.year + ' ' + album.label);
@@ -167,7 +166,7 @@ window.onload = function() {
     var albums = [albumPicasso, albumMarconi, albumKnifeParty];
     var index = 0;
     console.log($albumImage);
-    $albumImage.addEventListener("click", function(event) {
+    $albumImage.on("click", function(event) {
       setCurrentAlbum(albums[index]);
       index++;
       if (index == albums.length) {
