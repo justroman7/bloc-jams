@@ -121,7 +121,7 @@ var nextSong = function() {
     updatePlayerBarSong();
 
     var $nextSongNumberCell = getSongNumberCell(currentlyPlayingSongNumber);
-    var $lastSongNumberCell = getSongNumberCell(astSongNumber);
+    var $lastSongNumberCell = getSongNumberCell(lastSongNumber);
     $nextSongNumberCell.html(pauseButtonTemplate);
     $lastSongNumberCell.html(lastSongNumber);
 };
@@ -144,10 +144,26 @@ var previousSong = function() {
     $('.main-controls .play-pause').html(playerBarPauseButton);
 
     var $previousSongNumberCell = getSongNumberCell(currentlyPlayingSongNumber);
-    var $lastSongNumberCell = getSongNumberCell(astSongNumber);
+    var $lastSongNumberCell = getSongNumberCell(lastSongNumber);
 
     $previousSongNumberCell.html(pauseButtonTemplate);
     $lastSongNumberCell.html(lastSongNumber);
+};
+
+function togglePlayFromPlayerBar() {
+  var songNumber = parseInt($(this).attr('data-song-number'));
+  if (currentSoundFile.isPaused()) {
+    $(this).html(pauseButtonTemplate);
+    $('.main-controls .play-pause').html(playerBarPauseButton);
+    $('.album-song-button').html(playerBarPauseButton);
+    currentSoundFile.play();
+  } else {
+    $(this).html(playButtonTemplate);
+    $('.main-controls .play-pause').html(playerBarPlayButton);
+    $('.album-song-button').html(playerBarPlayButton);
+    currentSoundFile.pause();
+  }
+
 };
 
 var updatePlayerBarSong = function() {
@@ -166,6 +182,7 @@ var currentlyPlayingSongNumber = null;
 var currentSongFromAlbum = null;
 var currentSoundFile = null;
 var currentVolume = 80;
+var $bottomBarPlay = $('.main-controls .play-pause')
 
 var $previousButton = $('.main-controls .previous');
 var $nextButton = $('.main-controls .next');
@@ -174,6 +191,7 @@ $(document).ready(function() {
   setCurrentAlbum(albumPicasso);
   $previousButton.click(previousSong);
   $nextButton.click(nextSong);
+  $bottomBarPlay.click(togglePlayFromPlayerBar);
   });
     var albums = [albumPicasso, albumMarconi, albumKnifeParty];
     var index = 0;
