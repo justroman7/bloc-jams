@@ -29,9 +29,10 @@ function SetTotalTimeInPlayerBar(totalTime) {
 };
 
 function filterTimeCode(timeInSeconds) {
-  var minutes = Math.floor(timeInSeconds / 60);
-  var seconds = Math.floor(timeInSeconds % 60);
-  return minutes + ":" + seconds;
+  var songTime = parseFloat(timeInSeconds);
+  var minutes = Math.floor(songTime / 60);
+  var seconds = Math.floor(songTime % 60);
+  return minutes + ":" + (seconds < 10 ? '0' + seconds : seconds);
 
 };
 
@@ -182,11 +183,12 @@ var nextSong = function() {
   currentSongIndex++;
   if (currentSongIndex >= currentAlbum.songs.length) {
     currentSongIndex = 0;
-}
-  currentSoundFile.play();
+  }
   var lastSongNumber = currentlyPlayingSongNumber;
   currentlyPlayingSongNumber = currentSongIndex + 1;
   currentSongFromAlbum = currentAlbum.songs[currentSongIndex];
+  setSong(currentSongIndex + 1);
+  currentSoundFile.play();
   updatePlayerBarSong();
   updateSeekBarWhileSongPlays();
   var $nextSongNumberCell = getSongNumberCell(currentlyPlayingSongNumber);
@@ -201,10 +203,11 @@ var previousSong = function() {
   if (currentSongIndex < 0) {
     currentSongIndex = currentAlbum.songs.length - 1;
   }
-  currentSoundFile.play();
   var lastSongNumber = currentlyPlayingSongNumber;
   currentlyPlayingSongNumber = currentSongIndex + 1;
   currentSongFromAlbum = currentAlbum.songs[currentSongIndex];
+  setSong(currentSongIndex + 1);
+  currentSoundFile.play();
   updatePlayerBarSong();
   updateSeekBarWhileSongPlays();
   $('.main-controls .play-pause').html(playerBarPauseButton);
@@ -253,13 +256,13 @@ var $nextButton = $('.main-controls .next');
 $(document).ready(function() {
   setCurrentAlbum(albumPicasso);
   setupSeekBars();
+  updateSeekBarWhileSongPlays();
   $previousButton.click(previousSong);
   $nextButton.click(nextSong);
   $bottomBarPlay.click(togglePlayFromPlayerBar);
 });
 var albums = [albumPicasso, albumMarconi, albumKnifeParty];
 var index = 0;
-console.log($albumImage);
 $albumImage.on("click", function(event) {
   setCurrentAlbum(albums[index]);
   index++;
