@@ -1,0 +1,19 @@
+{
+  "name": "bloc-jams",
+  "version": "1.0.0",
+  "description": "music player",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/justroman7/bloc-jams.git"
+  },
+  "author": "justin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/justroman7/bloc-jams/issues"
+  },
+  "homepage": "https://github.com/justroman7/bloc-jams#readme"
+}
